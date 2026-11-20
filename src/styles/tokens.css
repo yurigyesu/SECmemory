@@ -1,0 +1,56 @@
+:root {
+  color-scheme: light dark;
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) {
+    color-scheme: dark;
+  }
+  &:has(> head > meta[name="color-scheme"][content="light"]) {
+    color-scheme: light;
+  }
+
+  --bg-canvas: light-dark(#f5f7fa, #0f141c);
+  --bg-grid-line: light-dark(rgba(14, 23, 38, 0.045), rgba(232, 238, 246, 0.045));
+  --bg-surface: light-dark(#ffffff, #161d27);
+  --bg-surface-muted: light-dark(#f0f4f8, #1c2533);
+  --bg-surface-hover: light-dark(#eef3fb, #222d3d);
+  --bg-drum-fade-top: light-dark(
+    linear-gradient(to bottom, #ffffff 8%, rgba(255, 255, 255, 0.72) 48%, transparent 100%),
+    linear-gradient(to bottom, #161d27 8%, rgba(22, 29, 39, 0.72) 48%, transparent 100%)
+  );
+  --bg-drum-fade-bottom: light-dark(
+    linear-gradient(to top, #ffffff 8%, rgba(255, 255, 255, 0.72) 48%, transparent 100%),
+    linear-gradient(to top, #161d27 8%, rgba(22, 29, 39, 0.72) 48%, transparent 100%)
+  );
+
+  --ink-primary: light-dark(#0e1726, #e8eef6);
+  --ink-secondary: light-dark(#4a5a70, #97a6bc);
+  --ink-muted: light-dark(#6c7b8f, #6e7d94);
+
+  --border-hairline: light-dark(#d8e0ea, #273244);
+  --border-strong: light-dark(#0e1726, #d0dce9);
+
+  --accent-cobalt: light-dark(#1428a0, #4c7dff);
+  --accent-cobalt-soft: light-dark(rgba(20, 40, 160, 0.08), rgba(76, 125, 255, 0.16));
+  --accent-vermilion: light-dark(#c92a2a, #f25c43);
+  --accent-vermilion-soft: light-dark(rgba(201, 42, 42, 0.07), rgba(242, 92, 67, 0.14));
+  --accent-teal: light-dark(#0e7c66, #2ec4a6);
+  --accent-teal-soft: light-dark(rgba(14, 124, 102, 0.1), rgba(46, 196, 166, 0.16));
+  --accent-amber: light-dark(#b45309, #f59e0b);
+  --accent-amber-soft: light-dark(rgba(180, 83, 9, 0.1), rgba(245, 158, 11, 0.16));
+  --accent-indigo: light-dark(#3b4cca, #7c8cff);
+  --accent-slate: light-dark(#475569, #94a3b8);
+
+  --danger: light-dark(#c92a2a, #ff6b6b);
+  --danger-soft: light-dark(#fef2f2, rgba(255, 107, 107, 0.14));
+
+  --font-sans: "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Consolas", monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-subtle: light-dark(0 1px 2px rgba(14, 23, 38, 0.05), 0 2px 6px rgba(0, 0, 0, 0.25));
+  --shadow-focus: 0 0 0 3px light-dark(rgba(20, 40, 160, 0.28), rgba(76, 125, 255, 0.35));
+
+  --row-height: 44px;
+}

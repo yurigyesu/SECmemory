@@ -1,0 +1,31 @@
+{
+  "name": "secmemory",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Samsung Semiconductor Memory Marking Code Decoder with SQLite WASM",
+  "scripts": {
+    "copy:wasm": "node scripts/copy-wasm.mjs",
+    "build:db": "node scripts/build-db.mjs",
+    "predev": "npm run copy:wasm && npm run build:db",
+    "dev": "vite",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run copy:wasm && npm run build:db && tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sql.js": "^1.13.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@types/sql.js": "^1.4.9",
+    "@vitejs/plugin-react": "^4.5.2",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4"
+  }
+}
