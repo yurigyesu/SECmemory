@@ -76,6 +76,18 @@ function formatDensity(densityGb: number | null, densityGB: number | null): stri
     return `${densityGB} GB`;
   }
   if (densityGb !== null && densityGb !== undefined) {
+    if (densityGb >= 1024) {
+      const tbBits = densityGb / 1024;
+      const tbBitsStr = Number.isInteger(tbBits) ? String(tbBits) : tbBits.toFixed(1);
+      const gb = densityGb / 8;
+      if (gb >= 1024) {
+        const tbBytes = gb / 1024;
+        const tbBytesStr = Number.isInteger(tbBytes) ? String(tbBytes) : tbBytes.toFixed(1);
+        return `${tbBitsStr} Tb (${tbBytesStr} TB)`;
+      }
+      const gbStr = Number.isInteger(gb) ? String(gb) : gb.toFixed(1);
+      return `${tbBitsStr} Tb (${gbStr} GB)`;
+    }
     const bytesMB = densityGb * 128; // 1 Gb = 128 MB
     if (bytesMB >= 1024) {
       const gb = bytesMB / 1024;
@@ -100,6 +112,11 @@ function formatOrganization(
     const wordsMb = (densityGb * 1024) / bitWidth;
     if (wordsMb >= 1024) {
       const gWords = wordsMb / 1024;
+      if (gWords >= 1024) {
+        const tWords = gWords / 1024;
+        const tWordStr = Number.isInteger(tWords) ? `${tWords}T` : `${tWords.toFixed(1)}T`;
+        return `${tWordStr} × ${bitWidth}`;
+      }
       const wordStr = Number.isInteger(gWords) ? `${gWords}G` : `${gWords.toFixed(1)}G`;
       return `${wordStr} × ${bitWidth}`;
     }

@@ -26,6 +26,16 @@ function isLikelyLotCode(token: string): boolean {
   return /[A-Z]/.test(token) && /\d/.test(token);
 }
 
+function correctCommonOcrMistakes(code: string, warnings: string[]): string {
+  if (/^K90(?:$|[A-Z0-9-])/.test(code)) {
+    warnings.push(
+      "칩 각인 오인 보정: 삼성 NAND 코드에는 'K90'(숫자 0)이 없으며 영문 'K9O'(3-bit TLC 8-Die ODP)로 자동 보정하여 해석했습니다.",
+    );
+    return `K9O${code.slice(3)}`;
+  }
+  return code;
+}
+
 export function normalizeMemoryInput(rawInput: string): NormalizedInput {
   const trimmed = rawInput.trim();
   if (!trimmed) {
@@ -58,20 +68,21 @@ export function normalizeMemoryInput(rawInput: string): NormalizedInput {
     };
   }
 
+  const warnings: string[] = [];
+
   // Single token fast path
   if (rawTokens.length === 1) {
     return {
       rawInput,
-      reconstructedCode: rawTokens[0],
+      reconstructedCode: correctCommonOcrMistakes(rawTokens[0], warnings),
       manufacturer: null,
       dateCodeRaw: null,
       lotCode: null,
       isMultiLineTopMarking: false,
-      warnings: [],
+      warnings,
     };
   }
 
-  const warnings: string[] = [];
   let manufacturer: string | null = null;
   let dateCodeRaw: string | null = null;
   let lotCode: string | null = null;
@@ -93,7 +104,7 @@ export function normalizeMemoryInput(rawInput: string): NormalizedInput {
   // Check if a complete hyphenated part number already exists among remaining tokens
   const fullIndex = remaining.findIndex((tok) => FULL_PN_RE.test(tok));
   if (fullIndex >= 0) {
-    const fullCode = remaining[fullIndex];
+    const fullCode = correctCommonOcrMistakes(remaining[fullIndex], warnings);
     const extras = remaining.filter((_, idx) => idx !== fullIndex);
     const lotCandidate = extras.find((tok) => isLikelyLotCode(tok) || tok.length >= 5);
     lotCode = lotCandidate ?? null;
@@ -173,7 +184,10 @@ export function normalizeMemoryInput(rawInput: string): NormalizedInput {
     lotCode = leftover.find((t) => isLikelyLotCode(t)) ?? leftover[0];
   }
 
-  const reconstructedCode = suffix ? `${basePart}-${suffix}` : basePart;
+  const reconstructedCode = correctCommonOcrMistakes(
+    suffix ? `${basePart}-${suffix}` : basePart,
+    warnings,
+  );
 
   if (!suffix && (manufacturer || dateCodeRaw)) {
     warnings.push('일부 속도/온도 접미사가 생략된 각인입니다. 기본 파트넘버 기준으로 해석합니다.');

@@ -17,6 +17,7 @@ const QUICK_SAMPLES = [
   { code: 'K4VAF325ZC-SC28', label: 'GDDR7 16Gb 28Gbps' },
   { code: 'K3LK7K70BM-BGCP', label: 'LPDDR5 64Gb PoP' },
   { code: 'KLUDG4UHDC-B0E1', label: 'UFS 3.1 128GB' },
+  { code: 'K9DYGY8J5B-CCK0', label: 'V8 TLC 16Tb HDP' },
   { code: 'M378A2K43CB2-CTD', label: 'DDR4 16GB UDIMM' },
 ];
 
@@ -146,7 +147,7 @@ export const SegmentExplanation: React.FC<SegmentExplanationProps> = ({
               </p>
 
               <div className="spotlight-options-row" aria-label="이 자리 후보 옵션">
-                {focusedSegment.slot.options.slice(0, 9).map((opt) => (
+                {focusedSegment.slot.options.map((opt) => (
                   <button
                     key={opt.id}
                     type="button"

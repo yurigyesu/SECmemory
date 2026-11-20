@@ -3,11 +3,11 @@
 > 이 문서는 작업 중단 시에도 즉시 이어서 작업(Resume)할 수 있도록 각 단계 시작 전과 완료 직후에 실시간으로 갱신됩니다.
 
 ## Resume State (재개 기준 상태)
-- **현재 단계**: 전체 완료 (30/30 항목 완료 — Phase 0~5 모두 통과)
-- **마지막 완료 작업**: `M_DIMM` 모듈 속도 슬롯에 DDR4-2133 (`PB`) 및 DDR4-2400 (`RC`) 옵션 추가, `compose.ts` DDR4→DDR5 전환 매핑 반영, 단위 테스트 보강 및 SQLite DB 재생성
-- **생성/수정된 파일**: `db/seed.sql`, `public/db/secmemory.sqlite`, `src/decoder/compose.ts`, `src/__tests__/decoder.test.ts`, `task.md`, `dist/*`
-- **마지막 검증 명령 및 결과**: `npm run build:db; if ($?) { npm run typecheck }; if ($?) { npm test }; if ($?) { npm run build }` → Exit 0 (`families=14, slots=161, options=443, known_chips=34`, Vitest `4 files / 19 tests passed`, `vite build` 완료)
-- **다음 실행 작업**: 없음 (Git 저장소 초기화 및 GitHub Pages 원격 푸시만 선택 수행)
+- **현재 단계**: 전체 완료 + K9 V-NAND / Z-NAND / QLC / HDP 확장 완료
+- **마지막 완료 작업**: `K9` Raw NAND 슬롯 옵션 전면 확장(SLC/Z-NAND ODP `Q`, MLC `G/L/H/P/U`, TLC `A/B/C/O/D`, QLC `X/Y`, `1G`~`16Tb YG` 용량, Toggle DDR V-NAND 코드), V-NAND/Z-NAND/QLC/HDP 대표 칩 11종(`known_chips` 총 45종) 시드 추가, `K90`→`K9O` OCR 오타 자동 보정, `Tb`/`TB` 밀도 포맷, 단위 테스트 보강 및 SQLite DB 재생성·GitHub Pages 배포
+- **생성/수정된 파일**: `db/seed.sql`, `public/db/secmemory.sqlite`, `scripts/build-db.mjs`, `src/decoder/normalizer.ts`, `src/decoder/engine.ts`, `src/components/SegmentExplanation.tsx`, `src/__tests__/decoder.test.ts`, `src/__tests__/normalizer.test.ts`, `src/__tests__/wasm-and-ui.test.tsx`, `task.md`, `dist/*`
+- **마지막 검증 명령 및 결과**: `npm run build:db; if ($?) { npm run typecheck }; if ($?) { npm test }; if ($?) { npm run build }`
+- **다음 실행 작업**: 완료 (https://yurigyesu.github.io/SECmemory/ 배포 완료)
 
 ---
 
@@ -52,4 +52,3 @@
 - [x] `sql.js` WASM + React UI 렌더 통합 테스트 (`src/__tests__/wasm-and-ui.test.tsx`) 작성 및 통과 (`4 files / 19 tests passed`, `.sqlite` 내보내기/재오픈 및 빈 초기 상태·다중 줄 각인 렌더 검증)
 - [x] 최종 `npm run typecheck`, `npm test`, `npm run build` 무오류 확인
 - [x] 실브라우저 Chrome DevTools 시각·인터랙션 E2E 검증 완료 (`http://localhost:4173/` 1~9번 항목 전체 통과, 콘솔 에러/경고 0건, 모바일 `390x844` 반응형 확인)
-ㅅ

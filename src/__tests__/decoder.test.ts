@@ -40,9 +40,9 @@ describe('Memory Code Decoder & Drum Composer', () => {
     expect(res.summary).toBeNull();
   });
 
-  it('decodes ALL 34 seeded known chips cleanly with status = decoded', () => {
+  it('decodes ALL 45 seeded known chips cleanly with status = decoded', () => {
     const chips = getKnownChips(db);
-    expect(chips.length).toBe(34);
+    expect(chips.length).toBe(45);
 
     for (const chip of chips) {
       const res = decodeMemoryCode(db, chip.part_number);
@@ -123,5 +123,32 @@ describe('Memory Code Decoder & Drum Composer', () => {
 
     const switch2133ToDdr5 = composeCodeFromSlotChange(db, 'M378A1K43BB1-CPB', 'M_DIMM', 2, '323');
     expect(switch2133ToDdr5.nextCode).toBe('M323R2GA3BB1-CQK');
+  });
+
+  it('decodes V-NAND (K9O/K9D/K9U), Z-NAND (K9Q), QLC (K9X), and corrects K90 typos', () => {
+    const hdpV8 = decodeMemoryCode(db, 'K9DYGY8J5B-CCK0');
+    expect(hdpV8.status).toBe('decoded');
+    expect(hdpV8.family?.family_key).toBe('K9');
+    expect(hdpV8.summary?.densityDisplay).toBe('16 Tb (2 TB)');
+    expect(hdpV8.segments[2].matchedOption?.code_value).toBe('D');
+
+    const zNand = decodeMemoryCode(db, 'K9QHGB8J0M-CCB0');
+    expect(zNand.status).toBe('decoded');
+    expect(zNand.family?.family_key).toBe('K9');
+    expect(zNand.summary?.densityDisplay).toBe('512 Gb (64 GB)');
+    expect(zNand.segments[2].matchedOption?.code_value).toBe('Q');
+
+    const typoOdp = decodeMemoryCode(db, 'K90MGY8H5A-CCK0');
+    expect(typoOdp.status).toBe('decoded');
+    expect(typoOdp.canonicalCode).toBe('K9OMGY8H5A-CCK0');
+    expect(typoOdp.summary?.densityDisplay).toBe('2 Tb (256 GB)');
+    expect(typoOdp.warnings.some((w) => w.includes('K9O'))).toBe(true);
+
+    // Non-catalog K9 variant verifies dynamic Tb / T × bitWidth formatting
+    const dynamicTb = decodeMemoryCode(db, 'K9DYGY8J5A-CCK0');
+    expect(dynamicTb.status).toBe('decoded');
+    expect(dynamicTb.knownChip).toBeNull();
+    expect(dynamicTb.summary?.densityDisplay).toBe('16 Tb (2 TB)');
+    expect(dynamicTb.summary?.orgDisplay).toBe('2T × 8');
   });
 });

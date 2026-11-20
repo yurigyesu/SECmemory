@@ -41,6 +41,17 @@ describe('Top Marking Normalizer & YWW Date Code Parser', () => {
     expect(gddr.reconstructedCode).toBe('K4ZAF325BM-HC16');
   });
 
+  it('auto-corrects K90 OCR misread to K9O with warning on single and multi-line markings', () => {
+    const single = normalizeMemoryInput('K90MGY8H5A-CCK0');
+    expect(single.reconstructedCode).toBe('K9OMGY8H5A-CCK0');
+    expect(single.warnings.length).toBeGreaterThan(0);
+
+    const multi = normalizeMemoryInput('SEC 812 CCK0\nK90MGY8 H5A');
+    expect(multi.reconstructedCode).toBe('K9OMGY8H5A-CCK0');
+    expect(multi.dateCodeRaw).toBe('812');
+    expect(multi.warnings.some((w) => w.includes('K9O'))).toBe(true);
+  });
+
   it('infers realistic manufacturing decade from family launch year', () => {
     const ddr4 = parseYwwDateCode('919', 2014, 2026);
     expect(ddr4?.inferredYear).toBe(2019);
