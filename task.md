@@ -3,8 +3,8 @@
 > 이 문서는 작업 중단 시에도 즉시 이어서 작업(Resume)할 수 있도록 각 단계 시작 전과 완료 직후에 실시간으로 갱신됩니다.
 
 ## Resume State (재개 기준 상태)
-- **현재 단계**: 전체 완료 + K9 V-NAND / Z-NAND / QLC / HDP 확장 완료
-- **마지막 완료 작업**: `K9` Raw NAND 슬롯 옵션 전면 확장(SLC/Z-NAND ODP `Q`, MLC `G/L/H/P/U`, TLC `A/B/C/O/D`, QLC `X/Y`, `1G`~`16Tb YG` 용량, Toggle DDR V-NAND 코드), V-NAND/Z-NAND/QLC/HDP 대표 칩 11종(`known_chips` 총 45종) 시드 추가, `K90`→`K9O` OCR 오타 자동 보정, `Tb`/`TB` 밀도 포맷, 단위 테스트 보강 및 SQLite DB 재생성·GitHub Pages 배포
+- **현재 단계**: 전체 완료 + M_DIMM E-die (`M378A1K43EB2-CWE`) 추가 완료
+- **마지막 완료 작업**: `M_DIMM` 탑재 다이 슬롯(`slot_order=6`)에 `E` (`E-die`) 추가 및 `M378A1K43EB2-CWE` (`known_chips` 총 46종) 시드 추가, 단위 테스트 보강 및 SQLite DB 재생성·GitHub Pages 배포
 - **생성/수정된 파일**: `db/seed.sql`, `public/db/secmemory.sqlite`, `scripts/build-db.mjs`, `src/decoder/normalizer.ts`, `src/decoder/engine.ts`, `src/components/SegmentExplanation.tsx`, `src/__tests__/decoder.test.ts`, `src/__tests__/normalizer.test.ts`, `src/__tests__/wasm-and-ui.test.tsx`, `task.md`, `dist/*`
 - **마지막 검증 명령 및 결과**: `npm run build:db; if ($?) { npm run typecheck }; if ($?) { npm test }; if ($?) { npm run build }`
 - **다음 실행 작업**: 완료 (https://yurigyesu.github.io/SECmemory/ 배포 완료)

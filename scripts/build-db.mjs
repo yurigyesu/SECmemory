@@ -46,7 +46,7 @@ try {
   const upsertMeta = db.prepare(
     'INSERT INTO db_metadata (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value',
   );
-  upsertMeta.run('schema_version', '1.1.0');
+  upsertMeta.run('schema_version', '1.1.1');
   upsertMeta.run('built_at', new Date().toISOString());
   upsertMeta.run('family_count', String(familyCount));
   upsertMeta.run('slot_count', String(slotCount));

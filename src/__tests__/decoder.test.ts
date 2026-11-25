@@ -40,9 +40,9 @@ describe('Memory Code Decoder & Drum Composer', () => {
     expect(res.summary).toBeNull();
   });
 
-  it('decodes ALL 45 seeded known chips cleanly with status = decoded', () => {
+  it('decodes ALL 46 seeded known chips cleanly with status = decoded', () => {
     const chips = getKnownChips(db);
-    expect(chips.length).toBe(45);
+    expect(chips.length).toBe(46);
 
     for (const chip of chips) {
       const res = decodeMemoryCode(db, chip.part_number);
@@ -123,6 +123,12 @@ describe('Memory Code Decoder & Drum Composer', () => {
 
     const switch2133ToDdr5 = composeCodeFromSlotChange(db, 'M378A1K43BB1-CPB', 'M_DIMM', 2, '323');
     expect(switch2133ToDdr5.nextCode).toBe('M323R2GA3BB1-CQK');
+
+    const dimm3200EDie = decodeMemoryCode(db, 'M378A1K43EB2-CWE');
+    expect(dimm3200EDie.status).toBe('decoded');
+    expect(dimm3200EDie.summary?.dieRev).toBe('E-die');
+    expect(dimm3200EDie.summary?.speedMts).toBe(3200);
+    expect(dimm3200EDie.summary?.densityDisplay).toBe('8 GB');
   });
 
   it('decodes V-NAND (K9O/K9D/K9U), Z-NAND (K9Q), QLC (K9X), and corrects K90 typos', () => {

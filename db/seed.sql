@@ -712,7 +712,7 @@ VALUES
   ((SELECT id FROM families WHERE family_key='M_DIMM'), 3, 'generation', '세대', 'Generation', 4, 1, 0, 'family', 'A=DDR4 (1.2V), R=DDR5 (1.1V), B=DDR3'),
   ((SELECT id FROM families WHERE family_key='M_DIMM'), 4, 'cap_org', '용량/칩구성', 'Capacity/Org', 5, 3, 0, 'density', '모듈 용량 및 탑재 칩 밀도 코드 (1K4=8GB, 2K4=16GB, 4K4=32GB, 2GA=16GB DDR5 등)'),
   ((SELECT id FROM families WHERE family_key='M_DIMM'), 5, 'rank', '랭크/비트', 'Rank/Org', 8, 1, 0, 'density', '모듈 Rank 및 칩 비트 폭 조합 (3=1Rx8, 0=2Rx8/1Rx16 등)'),
-  ((SELECT id FROM families WHERE family_key='M_DIMM'), 6, 'die_rev', '탑재 다이', 'Die Rev', 9, 1, 0, 'die', '모듈에 실장된 삼성 DRAM 다이 리비전 (B-die, C-die, D-die 등)'),
+  ((SELECT id FROM families WHERE family_key='M_DIMM'), 6, 'die_rev', '탑재 다이', 'Die Rev', 9, 1, 0, 'die', '모듈에 실장된 삼성 DRAM 다이 리비전 (B-die, C-die, D-die, E-die 등)'),
   ((SELECT id FROM families WHERE family_key='M_DIMM'), 7, 'pcb_rev', '패키지/PCB', 'Pkg/PCB Rev', 10, 2, 0, 'package', 'FBGA 패키지 + PCB 기판 리비전 (B0, B1, B2 등)'),
   ((SELECT id FROM families WHERE family_key='M_DIMM'), 8, 'sep', '', 'Separator', 12, 1, 1, 'neutral', '구분 기호(-)'),
   ((SELECT id FROM families WHERE family_key='M_DIMM'), 9, 'temp', '온도', 'Temp', 13, 1, 0, 'package', 'C = 상업용 온도 (0°C~85°C), I = 산업용'),
@@ -745,6 +745,7 @@ INSERT INTO code_options (slot_id, code_value, short_label, title_ko, detail_ko,
   ((SELECT s.id FROM code_slots s JOIN families f ON s.family_id=f.id WHERE f.family_key='M_DIMM' AND s.slot_order=6), 'B', 'B', 'B-die 탑재', '탑재된 단품 IC가 삼성 B-die', '{"dieRev":"B-die"}', 1),
   ((SELECT s.id FROM code_slots s JOIN families f ON s.family_id=f.id WHERE f.family_key='M_DIMM' AND s.slot_order=6), 'C', 'C', 'C-die 탑재', '탑재된 단품 IC가 삼성 C-die', '{"dieRev":"C-die"}', 2),
   ((SELECT s.id FROM code_slots s JOIN families f ON s.family_id=f.id WHERE f.family_key='M_DIMM' AND s.slot_order=6), 'D', 'D', 'D-die 탑재', '탑재된 단품 IC가 삼성 D-die', '{"dieRev":"D-die"}', 3),
+  ((SELECT s.id FROM code_slots s JOIN families f ON s.family_id=f.id WHERE f.family_key='M_DIMM' AND s.slot_order=6), 'E', 'E', 'E-die 탑재', '탑재된 단품 IC가 삼성 E-die', '{"dieRev":"E-die"}', 4),
   ((SELECT s.id FROM code_slots s JOIN families f ON s.family_id=f.id WHERE f.family_key='M_DIMM' AND s.slot_order=7), 'B0', 'B0', 'FBGA · PCB Rev 0', '초기 레퍼런스 PCB 기판 (Rev 0)', NULL, 1),
   ((SELECT s.id FROM code_slots s JOIN families f ON s.family_id=f.id WHERE f.family_key='M_DIMM' AND s.slot_order=7), 'B1', 'B1', 'FBGA · PCB Rev 1', '개정 PCB 기판 (Rev 1)', NULL, 2),
   ((SELECT s.id FROM code_slots s JOIN families f ON s.family_id=f.id WHERE f.family_key='M_DIMM' AND s.slot_order=7), 'B2', 'B2', 'FBGA · PCB Rev 2', '개정 PCB 기판 (Rev 2)', NULL, 3),
@@ -761,7 +762,7 @@ INSERT INTO code_options (slot_id, code_value, short_label, title_ko, detail_ko,
   ((SELECT s.id FROM code_slots s JOIN families f ON s.family_id=f.id WHERE f.family_key='M_DIMM' AND s.slot_order=10), 'CP', 'CP', 'DDR5-6400 (PC5-51200)', '6400 MT/s (CL52)', '{"speedMts":6400,"clockMhz":3200,"timing":"52-52-52"}', 8);
 
 -- ============================================================================
--- 11. Known Verified Samsung Chips Catalog (45 entries across all 14 families)
+-- 11. Known Verified Samsung Chips Catalog (46 entries across all 14 families)
 -- ============================================================================
 INSERT INTO known_chips (
   part_number, family_key, marketing_name, density_label, density_gb, org_label, bit_width,
@@ -811,4 +812,5 @@ INSERT INTO known_chips (
   ('KLUDG4UHDC-B0E1', 'KLU', '128GB UFS 3.1 (2-Lane)', '128 GB', 1024, 'UFS 3.1 (2-Lane)', 2, 'HS-Gear4 (2900 MB/s)', 2900, NULL, '1.2V / 2.5V', 'Rev C', '153-Ball FBGA', '-25°C ~ 85°C', 'SEC 140 B0E1\nKLUDG4U HDC', '스마트폰용 128GB UFS 3.1 내장 스토리지'),
   ('KLUFG8RHDA-B2D1', 'KLU', '512GB UFS 4.0 (M-PHY v5)', '512 GB', 4096, 'UFS 4.0 (2-Lane)', 2, 'HS-Gear5 (4200 MB/s)', 4200, NULL, '1.2V / 2.5V', 'Rev A', '153-Ball Slim FBGA', '-25°C ~ 85°C', 'SEC 336 B2D1\nKLUFG8R HDA', '최대 4200MB/s 순차 읽기를 지원하는 512GB UFS 4.0'),
   ('M378A2K43CB2-CTD', 'M_DIMM', 'DDR4 16GB UDIMM (2666)', '16 GB', 128, '2G × 64 (1Rx8/2Rx8)', 64, 'DDR4-2666 (1333 MHz)', 2666, 'CL 19-19-19', '1.2V', 'C-die', '288-Pin UDIMM', '0°C ~ 85°C', 'M378A2K43CB2-CTD\nSEC C-die 탑재', '데스크톱용 대표 삼성 16GB DDR4-2666 모듈 (시금치 램)'),
+  ('M378A1K43EB2-CWE', 'M_DIMM', 'DDR4 8GB UDIMM (3200, E-die)', '8 GB', 64, '1G × 64 (1Rx8)', 64, 'DDR4-3200 (1600 MHz)', 3200, 'CL 22-22-22', '1.2V', 'E-die', '288-Pin UDIMM', '0°C ~ 85°C', 'M378A1K43EB2-CWE\nSEC E-die 탑재', '8Gb E-die(K4A8G085WE-BCWE) ×8 실장 데스크톱 8GB DDR4-3200 1Rx8 표준 모듈'),
   ('M323R2GA3BB0-CQK', 'M_DIMM', 'DDR5 16GB UDIMM (4800)', '16 GB', 128, '2G × 64 (1Rx8)', 64, 'DDR5-4800 (2400 MHz)', 4800, 'CL 40-39-39', '1.1V', 'B-die', '288-Pin DDR5 UDIMM', '0°C ~ 85°C', 'M323R2GA3BB0-CQK\nK4RAH086VB-BCQK ×8', 'K4RAH086VB-BCQK 칩 8개가 실장된 데스크톱 16GB DDR5-4800 UDIMM');

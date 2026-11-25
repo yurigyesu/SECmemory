@@ -69,7 +69,7 @@ describe('sql.js WASM Runtime & React UI Render Integration', () => {
 
     const stats = getDbStats(exec);
     expect(stats.familyCount).toBe(14);
-    expect(stats.knownChipCount).toBe(45);
+    expect(stats.knownChipCount).toBe(46);
 
     const decoded = decodeMemoryCode(exec, 'K4AAG085WB-BCWE');
     expect(decoded.status).toBe('decoded');
